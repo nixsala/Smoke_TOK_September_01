@@ -1,5 +1,8 @@
 package utils;
 
+
+
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -14,6 +17,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.File;
+
 import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
@@ -27,49 +31,15 @@ public class PageBase {
     protected static String downloadFilepath = System.getProperty("user.dir")+File.separator+"src"+File.separator+"test"+File.separator+"resources"+File.separator+"fileDownload";
     protected static String uploadFilepath = System.getProperty("user.dir")+File.separator+"src"+File.separator+"test"+File.separator+"resources"+File.separator+"fileUpload";
     protected static String osType = System.getProperty("os.type", Constants.WINDOWS);
-    protected static String driverType = System.getProperty("browser.type", Constants.CHROME);
+    protected static String driverType = System.getProperty("browser.type", Constants.FIREFOX);
 
 	/**
      * Initialize webdriver, set driver path and maximize chrome browser window
      */
     public static void initiateDriver() throws MalformedURLException {
         staticWait(1);
-        switch (driverType) {
-            case Constants.CHROME:
-                if(osType.equals(Constants.UBUNTU))
-                    System.setProperty("webdriver.chrome.driver", webDriverLocation + "chromedriver");
-                else
-                    System.setProperty("webdriver.chrome.driver", webDriverLocation + "chromedriver.exe");
-
-                HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
-                chromePrefs.put("profile.default_content_settings.popups", 0);
-                chromePrefs.put("download.default_directory", downloadFilepath);
-                ChromeOptions optionsChrome = new ChromeOptions();
-                optionsChrome.setExperimentalOption("prefs", chromePrefs);
-                DesiredCapabilities capChrome = DesiredCapabilities.chrome();
-                capChrome.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-                capChrome.setCapability(ChromeOptions.CAPABILITY, optionsChrome);
-
-                driver = new ChromeDriver(capChrome);
-                break;
-            case Constants.FIREFOX:
-                if(osType.equals(Constants.UBUNTU))
-                    System.setProperty("webdriver.gecko.driver", webDriverLocation + "geckodriver");
-                else
-                    System.setProperty("webdriver.gecko.driver", webDriverLocation + "geckodriver.exe");
-
-                HashMap<String, Object> fireFoxPrefs = new HashMap<String, Object>();
-                FirefoxOptions optionsFireFox = new FirefoxOptions();
-                optionsFireFox.addPreference("profile.default_content_settings.popups", 0);
-                optionsFireFox.addPreference("download.prompt_for_download", "false");
-                optionsFireFox.addPreference("download.default_directory", downloadFilepath);
-                DesiredCapabilities capFireFox = DesiredCapabilities.firefox();
-                capFireFox.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-                capFireFox.setCapability(ChromeOptions.CAPABILITY, optionsFireFox);
-
-                driver = new FirefoxDriver(capFireFox);
-                break;
-        }
+        WebDriverManager.chromedriver().setup();
+        driver = new ChromeDriver();
         getDriver().manage().window().maximize();
         getDriver().get(baseUrl);
     }
@@ -143,7 +113,7 @@ public class PageBase {
     /**
      * Explicit Wait Clickable
      */
-    public static void waiTillClickable(By element ,int seconds) {
+    public static void waiTillClickable(By element , int seconds) {
     	WebDriverWait wait = new WebDriverWait(getDriver(), seconds);
     	wait.until(ExpectedConditions.elementToBeClickable(element));
     }
