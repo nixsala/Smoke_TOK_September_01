@@ -1,10 +1,11 @@
 package com.test.qa.utils;
 
-import com.test.qa.tokyo.LoginPage;
+
 import org.apache.log4j.Logger;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
+import utils.MethodBase;
 import utils.PageBase;
 
 import java.lang.reflect.Method;
@@ -32,13 +33,15 @@ TestBase {
 		}
 
 		LOGGER.info("Browser Initiated");
-		LoginPage.setUserName("admin");
-		LoginPage.setPassword("admin");
-		LoginPage.clickLogin();
+
+		MethodBase.setText_ByID("usernameOrEmail","admin");
+		MethodBase.setText_ByID("usernameOrEmail","password");
+		MethodBase.click_ByXpath("//button");
+
 
 		LOGGER.info("successful Login");
 
-		LoginPage.implicitWait(3000);
+		PageBase.staticWait(5);
 	}
 	
 	@BeforeMethod(alwaysRun = true)
