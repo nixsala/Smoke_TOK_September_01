@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Smoke" verbose="1" configfailurepolicy="continue">
+
+    <listeners>
+        <listener class-name="report.ExtentReportListener" />
+    </listeners>
+    <test name="Smoke">
+        <groups>
+            <run>
+                <include name="Smoke" />
+            </run>
+        </groups>
+
+        <classes>
+
+            <!-- plant smoke-->
+            <!--  <class name="master.PlantTest"></class>-->
+          <!-- equipment smoke-->
+            <class name="master.EquipmentTest"></class>
+            <class name="master.AddPlantEquipmentTest"></class>
+            <!-- material smoke-->
+            <class name="master.MaterialCategoryTest"></class>
+            <class name="master.MaterialSubCategoryTest"></class>
+            <class name="master.MaterialStateTest"></class>
+            <class name="master.MaterialsTest"></class>
+            <class name="master.UnitTest"></class>
+            <!-- customer smoke-->
+            <class name="master.CustomerTest"></class>
+            <class name="master.ProjectTest"></class>
+            <class name="master.DeliveryCycleTest"></class>
+            <!-- supplier smoke-->
+            <class name="master.SupplierCatecoryTest"></class>
+            <class name="master.SupplierTest"></class>
+            <!--employee  smoke-->
+            <class name="master.DesignationTest"></class>
+            <class name="master.RoleTest"></class>
+            <class name="master.EmployeeTest"></class>
+            <class name="master.UserTest"></class>
+
+
+            <!--TestConfigure  smoke-->
+            <class name="testconfiguration.testNV.test"></class>
+            <class name="testconfiguration.parameterNV.ParameterMTest"></class>
+            <class name="testconfiguration.parameterNV.QualityParameterTest"></class>
+            <class name="testconfiguration.configuretestNV.Test_Configration"></class>
+            <class name="testconfiguration.manageConfiguretestNV.ManageTest"></class>
+
+        </classes>
+    </test>
+</suite>
